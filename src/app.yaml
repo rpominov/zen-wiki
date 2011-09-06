@@ -1,0 +1,26 @@
+application: zen-wiki
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+  
+- url: /favicon.png
+  static_files: favicon.png
+  upload: favicon.png
+  
+- url: /css
+  static_dir: css
+  
+- url: /js
+  static_dir: js
+  
+- url: /
+  script: index.py
+  
+- url: /_onlogin
+  script: onlogin.py
+  
+- url: /.*
+  script: main.py
+  
