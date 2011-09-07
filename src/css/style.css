@@ -124,7 +124,7 @@ body {
 	#menu {
 		margin: 0;
 		padding: 0;
-		font-size: 15px;
+		font-size: 17px;
 	}
 		#menu li {list-style: none}
 		#menu > li {
@@ -151,7 +151,7 @@ body {
 	}
 	.can-edit #new-form {display:block}
 		#new-input {
-			width: 80px;
+			width: 140px;
 			position: relative;
 			z-index: 10;
 		}

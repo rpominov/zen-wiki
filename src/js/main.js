@@ -1,10 +1,17 @@
 "use strict";
 
-/*global $ Markdown */
+/*global _ $ Markdown prettyPrint */
 
 $(function(){
-	var converter = Markdown.getSanitizingConverter();
+	var converter = Markdown.getSanitizingConverter();	
 	var editor = new Markdown.Editor(converter);
+	
+	var pp = _.throttle(prettyPrint, 500);
+	editor.hooks.chain("onPreviewRefresh", function () {
+		$('#wmd-preview code, #wmd-preview pre').addClass('prettyprint');
+        pp();
+    });
+	
 	editor.run();
 	
 	$('#edit').click(function(){
