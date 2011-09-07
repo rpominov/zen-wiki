@@ -14,6 +14,9 @@ $(function(){
 	
 	editor.run();
 	
+	$('#edit-form').hide();
+	$('.not-saved #edit-form').show();
+	
 	$('#edit').click(function(){
 		$('#edit-form').toggle();
 	});
@@ -54,5 +57,5 @@ $(function(){
 			$(this).val('');
 		}
 	});
-
+	
 });
