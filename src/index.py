@@ -21,7 +21,7 @@ class MainPage(webapp.RequestHandler):
 			'wiki':       wiki
 		}))
 
-application = webapp.WSGIApplication([('/', MainPage)], debug=True)
+application = webapp.WSGIApplication([('/', MainPage)])
 
 def main():
 	run_wsgi_app(application)

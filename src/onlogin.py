@@ -15,7 +15,7 @@ class MainPage(webapp.RequestHandler):
 		else:
 			self.redirect('/')
 
-application = webapp.WSGIApplication([('/_onlogin', MainPage)], debug=True)
+application = webapp.WSGIApplication([('/_onlogin', MainPage)])
 
 def main():
 	run_wsgi_app(application)

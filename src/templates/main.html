@@ -27,7 +27,7 @@
 			
 			<div id="userbox">
 				{% if user %}
-					{% if wiki.canEdit %}master{% else %}not master{% endif %}
+					{% if wiki.canEdit %}master{% else %}guest{% endif %}
 					<a href="{{ logout_url }}">logout</a>
 				{% else %}
 					anon <a href="{{ login_url }}">login</a>
@@ -45,6 +45,12 @@
 		</div></div>
 		
 		<div class="center"><div class="padding">
+			
+			{% if not page.is_saved and not wiki.canEdit %}
+			
+			<h1>404 Not found ;(</h1>
+			
+			{% else %}
 			
 			<h1 class="path">
 				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %} <big>{{ page.title|capfirst|escape }} <sup id="move">move</sup> <sup id="edit">edit</sup> <sup id="delete">delete</sup></big>
@@ -68,6 +74,9 @@
 			</form>
 			
 			<div id="content"></div>
+			
+			{% endif %}
+			
 		</div></div>
 		
 		<div class="clear"></div>

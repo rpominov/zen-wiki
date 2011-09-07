@@ -66,11 +66,7 @@ class MainPage(webapp.RequestHandler):
 		page = wiki.getPage(pageurl)
 		
 		if not page:
-			if wiki.canEdit():
-				page = Page(url=pageurl, content='', parent=wiki)
-			else:
-				self.e404()
-				return
+			page = Page(url=pageurl, content='', parent=wiki)
 		
 		# ---------- menu building
 		def draw(root, url_prefix):
@@ -111,7 +107,7 @@ class MainPage(webapp.RequestHandler):
 		# ----------
 			
 		breadcrumbs = path[:-1]
-		if breadcrumbs[0]:
+		if len(breadcrumbs):
 			breadcrumbs[0] = 'root'
 			
 		self.response.out.write(template.render('templates/main.html', {
@@ -170,7 +166,7 @@ class MainPage(webapp.RequestHandler):
 		self.response.out.write(template.render('templates/error.html', {'error': '403 forbidden ;('}))
 
 
-application = webapp.WSGIApplication([('/.*', MainPage)], debug=True)
+application = webapp.WSGIApplication([('/.*', MainPage)])
 
 
 def main():
