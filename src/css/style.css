@@ -122,11 +122,11 @@ body {
 			margin-bottom: 1em;
 		}
 	#menu {
-		list-style: none;
 		margin: 0;
 		padding: 0;
 		font-size: 15px;
 	}
+		#menu li {list-style: none}
 		#menu > li {
 			padding-bottom: .5em;
 		}
@@ -134,11 +134,28 @@ body {
 				text-decoration: none;
 				color: black;
 			}
+			#menu li a.new {color: #888}
 			#menu li a:hover { text-decoration: underline; }
+			#menu > li > ul {
+				margin: 0 0 0 .5em;
+				padding: 0;
+				font-size: 14px;
+			}
+				#menu > li > ul ul {
+					margin: 0 0 0 1em;
+					padding: 0;
+					font-size: 12px;
+				}
 	#new-form {
 		display: none;
 	}
 	.can-edit #new-form {display:block}
+		#new-input {
+			width: 80px;
+			position: relative;
+			z-index: 10;
+		}
+		#new-input:focus {width: 300px}
 
 .center {
 	width: 640px;
@@ -173,6 +190,8 @@ body {
 					text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
 				}
 				.can-edit .path sup {display:inline}
+				.not-saved #move,
+				.not-saved #delete {display:none}
 			#move-form {
 				height: 25px;
 				margin-bottom: 16px;
@@ -187,6 +206,7 @@ body {
 		#edit-form {
 			display: none;
 		}
+		.not-saved #edit-form {display:block}
 			.textarea-wrap {
 				padding: 0 12px 0 0;
 			}

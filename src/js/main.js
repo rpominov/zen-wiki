@@ -30,8 +30,22 @@ $(function(){
 		}
 	});
 	
-	$('#new-input').change(function(){
-		$('#new-form').attr('action', window.rootUrl + '/' + $(this).val());
+	function check_val() {
+		var $input = $('#new-input');
+		if ($input.val().indexOf(window.rootUrl) !== 0) {
+			$input.val(window.rootUrl);
+		}
+	}
+	$('#new-input').bind('change keyup', function(){
+		check_val();
+		var url = $(this).val().split('/').map(encodeURIComponent).join('/');
+		$('#new-form').attr('action', url);
+	});
+	$('#new-input').focus(check_val);
+	$('#new-input').focusout(function(){
+		if ($(this).val() == window.rootUrl) {
+			$(this).val('');
+		}
 	});
 
 });

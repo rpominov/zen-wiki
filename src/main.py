@@ -3,6 +3,8 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 from google.appengine.ext.webapp import template
+from django.utils.text import capfirst
+from django.utils.html import escape
 
 import urllib
 
@@ -51,9 +53,9 @@ class Page(db.Model):
 class MainPage(webapp.RequestHandler):
 	
 	def get(self):
-		path = urllib.unquote(self.request.path)
-		wikiurl = path.split('/')[1]
-		pageurl = '/'.join(filter(lambda x: not not x, path.split('/')[2:]))
+		path = filter(lambda x: not not x, urllib.unquote(self.request.path).decode('utf8').split('/'))
+		wikiurl = path[0]
+		pageurl = '/'.join(path[1:])
 		
 		wiki = Wiki.getByUrl(wikiurl)
 		
@@ -69,13 +71,30 @@ class MainPage(webapp.RequestHandler):
 			else:
 				self.e404()
 				return
-			
+		
+		# ---------- menu building
+		def draw(root, url_prefix):
+			result = ''
+			for url_part in sorted(root.keys()):
+				result += '<li>'
+				name = url_part or 'root'
+				name = capfirst(name)
+				name = escape(name)
+				if root[url_part]['is_page']:
+					result += '<a href="' + url_prefix + url_part + '">' + name + '</a>'
+				else:
+					result += '<a class="new" href="' + url_prefix + url_part + '">' + name + '</a>'
+				if root[url_part]['children']:
+					result += '<ul>' + draw(root[url_part]['children'], url_prefix + url_part + '/') + '</ul>'
+				result += '</li>'
+			return result	
 		urls = []
 		for p in wiki.allPages():
-			urls.append(p.url)
-			
+			urls.append(p.url)	
 		menu = {}
 		for url in urls:
+			if not url:
+				continue
 			_path = url.split('/')
 			cur = menu
 			cur_path = ''
@@ -86,7 +105,14 @@ class MainPage(webapp.RequestHandler):
 					cur_path += step
 				if not step in cur.keys():
 					cur[step] = {'is_page': cur_path in urls, 'children': {} }
-				cur = cur[step]['children']
+				cur = cur[step]['children']		
+		menu = {u'': {'is_page': '' in urls, 'children': menu}}	
+		menu_html = draw(menu, wiki.getUrl())
+		# ----------
+			
+		breadcrumbs = path[:-1]
+		if breadcrumbs[0]:
+			breadcrumbs[0] = 'root'
 			
 		self.response.out.write(template.render('templates/main.html', {
 			'user':       users.get_current_user(),
@@ -95,13 +121,14 @@ class MainPage(webapp.RequestHandler):
 			'wiki':       wiki,
 			'pages':      wiki.allPages(),
 			'page':       page,
-			'path':       filter(lambda x: not not x, path.split('/')[1:-1])
+			'path':       breadcrumbs,
+			'menu_html':  menu_html
 		}))
 		
 	def post(self):
-		path = urllib.unquote(self.request.path)
-		wikiurl = path.split('/')[1]
-		pageurl = '/'.join(filter(lambda x: not not x, path.split('/')[2:]))
+		path = filter(lambda x: not not x, urllib.unquote(self.request.path).decode('utf8').split('/'))
+		wikiurl = path[0]
+		pageurl = '/'.join(path[1:])
 		
 		wiki = Wiki.getByUrl(wikiurl)
 		

@@ -14,13 +14,14 @@
 		
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/pagedown/pagedown.js"></script>
+		<script type="text/javascript" src="/js/comp.min.js"></script>
 		<script type="text/javascript" src="/js/main.js"></script>
 		
 		<script type="text/javascript">
-			window.rootUrl = "{{ wiki.getUrl }}";
+			window.rootUrl = "{{ wiki.getUrl }}/";
 		</script>
 	</head>
-	<body class="{% if wiki.canEdit %}can-edit{% endif %}">
+	<body class="{% if wiki.canEdit %}can-edit{% endif %} {% if not page.is_saved %}not-saved{% endif %}">
 		
 		<div class="sidebar"><div class="padding">
 			
@@ -34,13 +35,11 @@
 			</div>
 			
 			<ul id="menu">
-			{% for p in pages %}
-				<li><a href="{{ wiki.getUrl }}{{ p.getUrl }}">{{ p.title|capfirst }}</a></li>
-			{% endfor %}
+				{{ menu_html }}
 			</ul>
 			
-			<form action="" id="new-form">
-				<input type="text" placeholder="new/page" id="new-input"/>
+			<form action="" method="get" id="new-form">
+				<input type="text" placeholder="new/page" id="new-input" />
 			</form>
 			
 		</div></div>
@@ -48,7 +47,7 @@
 		<div class="center"><div class="padding">
 			
 			<h1 class="path">
-				{% for i in path %} {{ i|capfirst }} → {% endfor %} <big>{{ page.title|capfirst }} <sup id="move">move</sup> <sup id="edit">edit</sup> <sup id="delete">delete</sup></big>
+				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %} <big>{{ page.title|capfirst|escape }} <sup id="move">move</sup> <sup id="edit">edit</sup> <sup id="delete">delete</sup></big>
 			</h1>
 			<form method="post" id="move-form">
 				<input id="move-input" type="text" name="move" value="{{ page.url }}" />
@@ -57,7 +56,7 @@
 			<form method="post" id="edit-form">
 				<div class="wmd-panel">
 		            <div id="wmd-button-bar"></div>
-		            <div class="textarea-wrap"><textarea name="content" class="wmd-input" id="wmd-input">{{ page.content }}</textarea></div>
+		            <div class="textarea-wrap"><textarea name="content" class="wmd-input" id="wmd-input">{{ page.content|escape }}</textarea></div>
 		        </div>
 		        <div class="save-wrap"><input type="submit" value="save" /> <span id="cancel">cancel</span></div>
 		    </form>
