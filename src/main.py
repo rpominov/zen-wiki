@@ -28,7 +28,10 @@ class Wiki(db.Model):
 		return Wiki.all().filter('url =', url).get()
 	
 	def getPage(self, url):
-		return Page.all().ancestor(self).filter('url =', url).get()
+		result = Page.all().ancestor(self).filter('url =', url)
+		if not self.canEdit():
+			result.filter('private =', False)
+		return result.get()
 	
 	def canEdit(self):
 		return self.user == users.get_current_user()
@@ -37,12 +40,15 @@ class Wiki(db.Model):
 		return '/' + urllib.quote(self.url.encode('utf-8'))
 	
 	def allPages(self):
-		return  Page.all().ancestor(self).fetch(1000)
-		
+		result = Page.all().ancestor(self)
+		if not self.canEdit():
+			result.filter('private =', False)
+		return result.fetch(1000)
 	
 class Page(db.Model):
 	url = db.StringProperty()
 	content = db.TextProperty()
+	private = db.BooleanProperty()
 	
 	def title(self):
 		return self.url.split('/')[-1] or 'root'
@@ -66,43 +72,64 @@ class MainPage(webapp.RequestHandler):
 		page = wiki.getPage(pageurl)
 		
 		if not page:
-			page = Page(url=pageurl, content='', parent=wiki)
+			page = Page(url=pageurl, content='', parent=wiki, private=False)
 		
 		# ---------- menu building
-		def draw(root, url_prefix):
-			result = ''
-			for url_part in sorted(root.keys()):
-				result += '<li>'
-				name = url_part or 'root'
-				name = capfirst(name)
-				name = escape(name)
-				if root[url_part]['is_page']:
-					result += '<a href="' + url_prefix + url_part + '">' + name + '</a>'
-				else:
-					result += '<a class="new" href="' + url_prefix + url_part + '">' + name + '</a>'
-				if root[url_part]['children']:
-					result += '<ul>' + draw(root[url_part]['children'], url_prefix + url_part + '/') + '</ul>'
-				result += '</li>'
-			return result	
-		urls = []
+		pages = {}
 		for p in wiki.allPages():
-			urls.append(p.url)	
+			pages[p.url] = p
+		urls = pages.keys()
+			
 		menu = {}
 		for url in urls:
-			if not url:
-				continue
+			if not url: continue # drop 'Root'
 			_path = url.split('/')
 			cur = menu
 			cur_path = ''
 			for step in _path:
-				if cur_path:
-					cur_path += '/' + step
-				else:
-					cur_path += step
+				cur_path += ('/' if cur_path else '') + step
 				if not step in cur.keys():
-					cur[step] = {'is_page': cur_path in urls, 'children': {} }
-				cur = cur[step]['children']		
-		menu = {u'': {'is_page': '' in urls, 'children': menu}}	
+					cur[step] = {
+						'is_page': cur_path in urls,
+						'private': cur_path in urls and pages[cur_path].private,
+						'current': (wiki.getUrl() + '/' + cur_path) == ('/' + '/'.join(path)),
+						'children': {} 
+					}
+				cur = cur[step]['children']
+				
+		cur_path = ''
+		menu = {u'': {
+			'is_page': cur_path in urls,
+			'private': cur_path in urls and pages[cur_path].private,
+			'current': (wiki.getUrl() + cur_path) == ('/' + '/'.join(path)),
+			'children': menu
+		}}
+		
+		def draw(root, url_prefix):
+			result = ''
+			for url_part in sorted(root.keys()):
+				
+				item = root[url_part]
+				
+				name = url_part or 'root'
+				name = capfirst(name)
+				name = escape(name)
+				
+				url = url_prefix + url_part
+				
+				class_name = ''
+				if not item['is_page']: class_name += ' new'
+				if     item['current']: class_name += ' current'
+				if     item['private']: class_name += ' private'
+					
+				children = ''
+				if item['children']:
+					children = '<ul>%s</ul>' % draw(item['children'], url_prefix + url_part + '/')
+				
+				result += '<li><span class="name %s"><a href="%s">%s</a></span>%s</li>' % (class_name, url, name, children)
+				
+			return result
+		
 		menu_html = draw(menu, wiki.getUrl())
 		# ----------
 			
@@ -115,7 +142,6 @@ class MainPage(webapp.RequestHandler):
 			'logout_url': users.create_logout_url(self.request.path),
 			'login_url':  users.create_login_url(self.request.path),
 			'wiki':       wiki,
-			'pages':      wiki.allPages(),
 			'page':       page,
 			'path':       breadcrumbs,
 			'menu_html':  menu_html
@@ -136,12 +162,17 @@ class MainPage(webapp.RequestHandler):
 			
 			page = wiki.getPage(pageurl)
 			if not page:
-				page = Page(url=pageurl, content='', parent=wiki)
+				page = Page(url=pageurl, content='', parent=wiki, private=False)
 			
 			move = self.request.get('move', default_value='')
 			delete = self.request.get('delete', default_value=0)
+			private = self.request.get('private', default_value=None)
 			
-			if delete:
+			if private:
+				page.private = (private == '1')
+				page.put()
+				self.redirect(self.request.path)
+			elif delete:
 				if page.is_saved():
 					page.delete()
 				self.redirect(wiki.getUrl())

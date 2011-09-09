@@ -1,0 +1,5 @@
+indexes:
+- kind: Page
+  ancestor: yes
+  properties:
+  - name: private

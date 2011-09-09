@@ -30,7 +30,7 @@
 			window.rootUrl = "{{ wiki.getUrl }}/";
 		</script>
 	</head>
-	<body class="{% if wiki.canEdit %}can-edit{% endif %} {% if not page.is_saved %}not-saved{% endif %}">
+	<body class="{% if wiki.canEdit %}can-edit{% endif %} {% if not page.is_saved %}not-saved{% endif %} {% if page.private %}private{% else %}public{% endif %}">
 		
 		<div class="sidebar"><div class="padding">
 			
@@ -62,7 +62,12 @@
 			{% else %}
 			
 			<h1 class="path">
-				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %} <big>{{ page.title|capfirst|escape }} <sup id="move">move</sup> <sup id="edit">edit</sup> <sup id="delete">delete</sup></big>
+				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %} <big>{{ page.title|capfirst|escape }} 
+					<sup id="move">move</sup> 
+					<sup id="edit">edit</sup> 
+					<sup id="delete">delete</sup>
+					<sup id="set-private"><span class="private">private</span><span class="public">public</span></sup>
+				</big>
 			</h1>
 			<form method="post" id="move-form">
 				<input id="move-input" type="text" name="move" value="{{ page.url }}" />
@@ -80,6 +85,10 @@
 			
 			<form method="post" id="delete-form">
 				<input type="hidden" name="delete" value="1" />
+			</form>
+			
+			<form method="post" id="set-private-form">
+				<input type="hidden" name="private" value="{% if page.private %}0{% else %}1{% endif %}" />
 			</form>
 			
 			<div id="content"></div>

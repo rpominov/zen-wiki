@@ -40,6 +40,10 @@ $(function(){
 		}
 	});
 	
+	$('#set-private').click(function(){
+		$('#set-private-form').submit();
+	});
+	
 	function check_val() {
 		var $input = $('#new-input');
 		if ($input.val().indexOf(window.rootUrl) !== 0) {
@@ -57,5 +61,4 @@ $(function(){
 			$(this).val('');
 		}
 	});
-	
 });

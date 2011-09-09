@@ -127,6 +127,10 @@ body {
 		font-size: 17px;
 	}
 		#menu li {list-style: none}
+		#menu li .private {
+			background: url('/css/private.png') no-repeat 100% 0;
+			padding-right: 20px;
+		}
 		#menu > li {
 			padding-bottom: .5em;
 		}
@@ -134,8 +138,10 @@ body {
 				text-decoration: none;
 				color: black;
 			}
-			#menu li a.new {color: #888}
-			#menu li a:hover { text-decoration: underline; }
+			#menu li .new a {color: #888}
+			#menu li a:hover {text-decoration: underline}
+			#menu li .current a {cursor: default}
+			#menu li .current a:hover {text-decoration: none}
 			#menu > li > ul {
 				margin: 0 0 0 .5em;
 				padding: 0;
@@ -191,7 +197,19 @@ body {
 				}
 				.can-edit .path sup {display:inline}
 				.not-saved #move,
-				.not-saved #delete {display:none}
+				.not-saved #delete,
+				.not-saved #set-private {display:none}
+				#set-private {
+					padding: 0;
+					background: white;
+					border: #aaa 1px solid;
+				}
+					#set-private span {
+						padding: 0 4px;
+					}
+					.public #set-private .public {background: #dfdfdf}
+					.private #set-private .private {background: #dfdfdf}
+					
 			#move-form {
 				height: 25px;
 				margin-bottom: 16px;
@@ -250,7 +268,6 @@ pre.prettyprint {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding: 2px 10px;
-	border: 1px solid #DEDEDE;
 }
 
 code.prettyprint { 
