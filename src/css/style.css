@@ -286,3 +286,19 @@ pre.prettyprint code.prettyprint {
 	padding: inherit;
 	border: none;
 }
+
+.help {
+	border: 3px dashed #f0f0f0;	
+	margin-bottom: 1em;
+}
+
+	.help > div {
+		background: #f0f0f0;
+		padding: 17px;
+		
+	}
+		.help h3, 
+		.help h4 {margin:0}
+		.help h3 {
+			text-align: right;
+		}
