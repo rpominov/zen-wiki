@@ -200,12 +200,15 @@ body {
 				.not-saved #delete,
 				.not-saved #set-private {display:none}
 				#set-private {
-					padding: 0;
+					padding: 1px;
 					background: white;
 					border: #aaa 1px solid;
 				}
 					#set-private span {
 						padding: 0 4px;
+						-webkit-border-radius: 2px;
+						-moz-border-radius: 2px;
+						border-radius: 2px;
 					}
 					.public #set-private .public {background: #dfdfdf}
 					.private #set-private .private {background: #dfdfdf}
