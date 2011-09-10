@@ -52,7 +52,7 @@ $(function(){
 	}
 	$('#new-input').bind('change keyup', function(){
 		check_val();
-		var url = $(this).val().split('/').map(encodeURIComponent).join('/');
+		var url = _($(this).val().split('/')).map(encodeURIComponent).join('/');
 		$('#new-form').attr('action', url);
 	});
 	$('#new-input').focus(check_val);
