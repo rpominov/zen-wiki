@@ -177,7 +177,7 @@ class MainPage(webapp.RequestHandler):
 					page.delete()
 				self.redirect(wiki.getUrl())
 			elif move:
-				page.url = move
+				page.url = '/'.join(filter(lambda x: not not x, move.split('/')))
 				page.put()
 				self.redirect(wiki.getUrl() + page.getUrl())
 			else:
