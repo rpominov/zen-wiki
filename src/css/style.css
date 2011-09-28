@@ -283,7 +283,7 @@ code.prettyprint {
 pre.prettyprint code.prettyprint {
 	background-color: inherit;
 	color: inherit;
-	padding: inherit;
+	padding: 0;
 	border: none;
 }
 
