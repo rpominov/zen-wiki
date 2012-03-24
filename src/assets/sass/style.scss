@@ -1,0 +1,150 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/box-sizing";
+
+@import "intro";
+@import "wmd";
+
+img {
+	max-width:100%;
+	height:auto;
+}
+
+.small {font-size:.9em;}
+
+.content-wrap {
+	position:relative;
+	&:before {
+		content:'';
+		display:block;
+		position:absolute;
+		top:0;
+		bottom:0;
+		left:(span(4)+$blueprint-grid-margin/2);
+		border-right:1px solid #eee;
+	}
+}
+
+.little-help {
+	border:3px dashed #f0f0f0;
+	margin-bottom:1em;
+	& > div {
+		background:#f0f0f0;
+		padding:17px;
+	}
+	h3, h4 {margin:0}
+	h3 {text-align:right}
+}
+
+aside {
+	position:relative;
+	.padding {padding:0 10px 10px 0}
+}
+	.userbox {
+		text-align:right;
+		margin-bottom:1em;
+	}
+	.nav {
+		margin:0;
+		padding:0;
+		font-size:17px;
+	}
+		.nav li {list-style:none}
+		.nav li .private {
+			background:url(../img/private.png) no-repeat 100% 0;
+			padding-right:20px;
+		}
+		.nav > li {
+			padding-bottom:.5em;
+		}
+			.nav li a {
+				text-decoration:none;
+				color:black;
+			}
+			.nav li .new a {color:#888}
+			.nav li a:hover {text-decoration:underline}
+			.nav li .current a {cursor:default}
+			.nav li .current a:hover {text-decoration:none}
+			.nav > li > ul {
+				margin:0 0 0 .5em;
+				padding:0;
+				font-size:14px;
+			}
+				.nav > li > ul ul {
+					margin:0 0 0 1em;
+					padding:0;
+					font-size:12px;
+				}
+	.new-form {
+		display: none;
+		.can-edit & {display:block}
+		input {
+			width: 140px;
+			position: relative;
+			z-index: 10;
+			&:focus {width: 300px}
+		}
+	}
+
+.path {
+	font-size:17px;
+	color:#666;
+	height:25px;
+	margin-bottom:16px;
+}
+	.path big {
+		font-size:25px;
+		color:black;
+	}
+		.path sup {
+			font-size:11px;
+			cursor:pointer;
+			display:none;
+			padding:1px 4px;
+			text-decoration:none;
+			background:#dfdfdf;
+			color:#666;
+			text-shadow:1px 1px 0 rgba(255,255,255,0.3);
+			top:-1em;
+			-webkit-font-smoothing:antialiased;
+			@include border-radius(2px);
+			.can-edit & {display:inline}
+			.not-saved &.move,
+			.not-saved &.delete,
+			.not-saved &.set-private {display:none}
+			&.set-private {
+				padding:1px;
+				background:white;
+				border:#aaa 1px solid;
+			}
+				&.set-private span {
+					padding:0 4px;
+					@include border-radius(2px);
+				}
+				.public &.set-private .public {background:#dfdfdf}
+				.private &.set-private .private {background:#dfdfdf}
+		}
+
+.textarea-wrap {
+	margin-bottom:10px;
+	textarea {
+		margin: 0;
+		padding: 5px;
+		@include box-sizing(border-box);
+	}
+}
+.save-wrap {
+	text-align: right;
+}
+	.cancel {
+		cursor: pointer;
+		border-bottom: 1px dashed black;
+	}
+
+footer {
+	border-top:1px solid #eee;
+	text-align:right;
+	padding-top:5px;
+}
+
+@import 'outro';
+

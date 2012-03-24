@@ -6,14 +6,14 @@ from google.appengine.ext.webapp import template
 from main import Wiki
 
 class MainPage(webapp.RequestHandler):
-	
+
 	def get(self):
-		
+
 		wiki = None
 		user = users.get_current_user()
 		if user:
 			wiki = Wiki.getByUser(user)
-		
+
 		self.response.out.write(template.render('templates/index.html', {
 			'user':       user,
 			'logout_url': users.create_logout_url(self.request.path),
@@ -28,3 +28,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
+
