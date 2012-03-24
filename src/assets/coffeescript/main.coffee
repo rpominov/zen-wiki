@@ -6,20 +6,23 @@ $ ->
 	pp = _.throttle(prettyPrint, 500)
 	editor.hooks.chain "onPreviewRefresh", ->
 		$("#wmd-preview code, #wmd-preview pre").addClass "prettyprint"
+		$("#wmd-preview table").addClass "striped"
 		pp()
 
 	$("@edit-page-button").click ->
 		$("@edit-form").toggle()
 
-	$("@move-form").hide()
+	#$("@move-form").hide()
 	toggleMove = ->
 		$("@path-block, @move-form").toggle()
 		if $("@move-form:visible").length > 0
 			$("@move-form input").focus()
 	$("@move-page-button").click toggleMove
 	$("@move-form input").focusout toggleMove
+
 	$("@cancel").click ->
-		window.location.reload()
+		$("@edit-form").hide()[0].reset()
+		editor.refreshPreview()
 
 	$("@delete-page-button").click ->
 		if confirm("Delete this page?")
@@ -42,6 +45,6 @@ $ ->
 			$(this).val ""
 
 	editor.run()
-	$("@edit-form").hide()
+	#$("@edit-form").hide()
 	$(".not-saved @edit-form").show()
 

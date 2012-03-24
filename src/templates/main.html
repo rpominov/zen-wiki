@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block main_content %}
+	<div class="vertical-line"></div>
+
 	<aside class="span-4">
 		<div class="userbox small">
 			{% if user %}
@@ -35,27 +37,34 @@
 			<h1 class="path" role="path-block">
 				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %}
 				<big>{{ page.title|capfirst|escape }}
-					<sup class="move"        role="move-page-button">move</sup>
-					<sup class="edit"        role="edit-page-button">edit</sup>
-					<sup class="delete"      role="delete-page-button">delete</sup>
-					<sup class="set-private" role="set-private-status-button">
-						<span class="private">private</span>
-						<span class="public">public</span>
-					</sup>
+					{% if wiki.canEdit %}
+						<sup class="edit" role="edit-page-button">edit</sup>
+						{% if page.is_saved %}
+							<sup class="move" role="move-page-button">move</sup>
+							<sup class="delete" role="delete-page-button">delete</sup>
+							<sup class="set-private" role="set-private-status-button">
+								<span class="private">private</span>
+								<span class="public">public</span>
+							</sup>
+						{% endif %}
+					{% endif %}
 				</big>
 			</h1>
-			<form method="post" role="move-form">
+			<form method="post" role="move-form" class="move-form temporary-hidden">
 				<input type="text" name="move" value="{{ page.url }}" />
 			</form>
 
-			<form method="post" role="edit-form">
+			<form method="post" role="edit-form" class="edit-form temporary-hidden">
 				<div class="wmd-panel">
 					<div id="wmd-button-bar"></div>
 					<div class="textarea-wrap">
 						<textarea name="content" class="wmd-input" id="wmd-input">{{ page.content|escape }}</textarea>
 					</div>
 				</div>
-				<div class="save-wrap"><input type="submit" value="save" /> <span class="cancel" role="cancel">cancel</span></div>
+				<div class="save-wrap">
+					<input type="submit" value="save" />
+					<span class="cancel" role="cancel">cancel</span>
+				</div>
 			</form>
 
 			<div id="wmd-preview"></div>

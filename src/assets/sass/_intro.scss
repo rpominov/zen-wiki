@@ -64,55 +64,32 @@ td { vertical-align: top; }
 
 
 
-// This import applies a global reset to any page that imports this stylesheet.
-//@import "blueprint/reset";
 
-// Here is where you can define your constants for your application and to configure the blueprint framework.
-// Feel free to delete these if you want keep the defaults:
+@import "blueprint/reset";
+
 $blueprint-grid-columns: 16;
 $blueprint-container-size: 800px;
-$blueprint-grid-margin: 20px;
-
-// Use this to calculate the width based on the total width.
-// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
+$blueprint-grid-margin: 30px;
 $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
 
 $blueprint-font-family: arial, sans-serif;
 $blueprint-font-size: 13px;
 
-// Import all the default blueprint modules so that we can access their mixins.
 @import "blueprint";
+@import "blueprint/scaffolding";
 
-// Import the non-default scaffolding module.
-//@import "blueprint/scaffolding";
+//@include blueprint;
 
-// To generate css equivalent to the blueprint css but with your
-// configuration applied, uncomment:
-// @include blueprint
-
-// If you are doing a lot of stylesheet concatenation, it is suggested
-// that you scope your blueprint styles, so that you can better control
-// what pages use blueprint when stylesheets are concatenated together.
-//body {
-  @include blueprint-typography;
-  @include blueprint-utilities;
-  //@include blueprint-debug;
-  @include blueprint-interaction;
-
-  @include blueprint-grid;
-  // Remove the scaffolding when you're ready to start doing visual design.
-  // Or leave it in if you're happy with how blueprint looks out-of-the-box
-//}
+/* 1111 */
+@include blueprint-typography;
+/* 1111 */
+@include blueprint-utilities;
+//@include blueprint-debug;
+@include blueprint-interaction;
+@include blueprint-grid;
+@include blueprint-form;
+@include blueprint-scaffolding;
 
 
-//form {
-  @include blueprint-form;
-  // You'll probably want to remove the scaffolding once you start styling your site.
-  //@include blueprint-scaffolding;
-//}
-
-
-html.lt-ie8 {
-	@include blueprint-ie(true);
-}
+html.lt-ie8 { @include blueprint-ie(true) }
 

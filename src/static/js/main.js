@@ -7,12 +7,12 @@
     pp = _.throttle(prettyPrint, 500);
     editor.hooks.chain("onPreviewRefresh", function() {
       $("#wmd-preview code, #wmd-preview pre").addClass("prettyprint");
+      $("#wmd-preview table").addClass("striped");
       return pp();
     });
     $("@edit-page-button").click(function() {
       return $("@edit-form").toggle();
     });
-    $("@move-form").hide();
     toggleMove = function() {
       $("@path-block, @move-form").toggle();
       if ($("@move-form:visible").length > 0) return $("@move-form input").focus();
@@ -20,7 +20,8 @@
     $("@move-page-button").click(toggleMove);
     $("@move-form input").focusout(toggleMove);
     $("@cancel").click(function() {
-      return window.location.reload();
+      $("@edit-form").hide()[0].reset();
+      return editor.refreshPreview();
     });
     $("@delete-page-button").click(function() {
       if (confirm("Delete this page?")) return $("@delete-form").submit();
@@ -44,7 +45,6 @@
       if ($(this).val() === ROOT_URL) return $(this).val("");
     });
     editor.run();
-    $("@edit-form").hide();
     return $(".not-saved @edit-form").show();
   });
 

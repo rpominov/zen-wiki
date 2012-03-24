@@ -4,25 +4,50 @@
 @import "intro";
 @import "wmd";
 
+html {overflow-y: scroll}
 img {
 	max-width:100%;
 	height:auto;
 }
-
 .small {font-size:.9em;}
+.temporary-hidden {display:none}
+
+.prettyprint {
+	font-family: Monaco, Menlo, 'Droid Sans Mono', 'Courier New', monospace;
+	font-size: 12px;
+}
+
+pre.prettyprint {
+	border: none;
+	background: ghostWhite;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 2px 10px;
+}
+code.prettyprint {
+	background-color: ghostWhite;
+	color: hsl(0, 0%, 27%);
+	padding: 0 .2em;
+	border: 1px solid #DEDEDE;
+}
+pre.prettyprint code.prettyprint {
+	background-color: inherit;
+	color: inherit;
+	padding: 0;
+	border: none;
+}
 
 .content-wrap {
 	position:relative;
-	&:before {
-		content:'';
-		display:block;
+}
+	.vertical-line {
 		position:absolute;
 		top:0;
 		bottom:0;
 		left:(span(4)+$blueprint-grid-margin/2);
 		border-right:1px solid #eee;
 	}
-}
 
 .little-help {
 	border:3px dashed #f0f0f0;
@@ -37,7 +62,6 @@ img {
 
 aside {
 	position:relative;
-	.padding {padding:0 10px 10px 0}
 }
 	.userbox {
 		text-align:right;
@@ -47,43 +71,49 @@ aside {
 		margin:0;
 		padding:0;
 		font-size:17px;
-	}
-		.nav li {list-style:none}
-		.nav li .private {
-			background:url(../img/private.png) no-repeat 100% 0;
-			padding-right:20px;
-		}
-		.nav > li {
-			padding-bottom:.5em;
-		}
-			.nav li a {
+		li {
+			list-style:none;
+			.private {
+				background:url(../img/private.png) no-repeat 100% 0;
+				padding-right:20px;
+			}
+			a {
 				text-decoration:none;
 				color:black;
+				&:hover {text-decoration:underline}
 			}
-			.nav li .new a {color:#888}
-			.nav li a:hover {text-decoration:underline}
-			.nav li .current a {cursor:default}
-			.nav li .current a:hover {text-decoration:none}
-			.nav > li > ul {
+			.new a {color:#888}
+			.current a {
+				cursor:default;
+				&:hover {text-decoration:none}
+			}
+		}
+		& > li {padding-bottom:.5em}
+			& > li > ul {
 				margin:0 0 0 .5em;
 				padding:0;
 				font-size:14px;
 			}
-				.nav > li > ul ul {
+				& > li > ul ul {
 					margin:0 0 0 1em;
 					padding:0;
 					font-size:12px;
 				}
+	}
+
 	.new-form {
-		display: none;
-		.can-edit & {display:block}
+		margin-bottom:20px;
 		input {
-			width: 140px;
-			position: relative;
-			z-index: 10;
-			&:focus {width: 300px}
+			width:140px;
+			position:relative;
+			z-index:10;
+			&:focus {width:300px}
 		}
 	}
+
+article {
+	padding-top:20px;
+}
 
 .path {
 	font-size:17px;
@@ -98,7 +128,6 @@ aside {
 		.path sup {
 			font-size:11px;
 			cursor:pointer;
-			display:none;
 			padding:1px 4px;
 			text-decoration:none;
 			background:#dfdfdf;
@@ -107,10 +136,6 @@ aside {
 			top:-1em;
 			-webkit-font-smoothing:antialiased;
 			@include border-radius(2px);
-			.can-edit & {display:inline}
-			.not-saved &.move,
-			.not-saved &.delete,
-			.not-saved &.set-private {display:none}
 			&.set-private {
 				padding:1px;
 				background:white;
@@ -123,27 +148,40 @@ aside {
 				.public &.set-private .public {background:#dfdfdf}
 				.private &.set-private .private {background:#dfdfdf}
 		}
-
-.textarea-wrap {
-	margin-bottom:10px;
-	textarea {
+.move-form {
+	height: 25px;
+	margin-bottom: 16px;
+	display: none;
+}
+	.move-form input {
+		font-size: 17px;
+		padding: 3px;
+		width: 300px;
 		margin: 0;
-		padding: 5px;
-		@include box-sizing(border-box);
 	}
+
+.edit-form {
+	margin-bottom:20px;
 }
-.save-wrap {
-	text-align: right;
-}
-	.cancel {
-		cursor: pointer;
-		border-bottom: 1px dashed black;
+	.textarea-wrap {
+		margin-bottom:10px;
+		textarea {
+			margin: 0;
+			padding: 5px;
+			@include box-sizing(border-box);
+		}
 	}
+	.save-wrap {
+		text-align: right;
+	}
+		.cancel {
+			cursor: pointer;
+			border-bottom: 1px dashed black;
+		}
 
 footer {
 	border-top:1px solid #eee;
 	text-align:right;
-	padding-top:5px;
 }
 
 @import 'outro';
