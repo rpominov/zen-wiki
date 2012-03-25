@@ -8,6 +8,8 @@ from main import Wiki
 class MainPage(webapp.RequestHandler):
 
 	def get(self):
+		if self.request.host.find("appspot") != -1:
+			self.redirect("http://www.zen-wiki.com" + self.request.path)
 
 		wiki = None
 		user = users.get_current_user()

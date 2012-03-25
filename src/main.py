@@ -59,6 +59,9 @@ class Page(db.Model):
 class MainPage(webapp.RequestHandler):
 
 	def get(self):
+		if self.request.host.find("appspot") != -1:
+			self.redirect("http://www.zen-wiki.com" + self.request.path)
+
 		path = filter(lambda x: not not x, urllib.unquote(self.request.path).decode('utf8').split('/'))
 		wikiurl = path[0]
 		pageurl = '/'.join(path[1:])
