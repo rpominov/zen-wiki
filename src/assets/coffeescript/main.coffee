@@ -3,16 +3,19 @@ $ ->
 	converter = Markdown.getSanitizingConverter()
 	editor = new Markdown.Editor(converter)
 
+	ORIG_TEXT = $("@edit-form textarea").val()
+	ORIG_TITLE = $('title').text()
+
 	pp = _.throttle(prettyPrint, 500)
 	editor.hooks.chain "onPreviewRefresh", ->
 		$("#wmd-preview code, #wmd-preview pre").addClass "prettyprint"
 		$("#wmd-preview table").addClass "striped"
+		changed = !(ORIG_TEXT == $("@edit-form textarea").val())
+		$('@edit-form [type=submit]').prop(disabled: !changed)
+		$('body').toggleClass('changed', changed)
+		$('title').text("#{if changed then '*' else ''}#{ORIG_TITLE}")
 		pp()
 
-	$("@edit-page-button").click ->
-		$("@edit-form").toggle()
-
-	#$("@move-form").hide()
 	toggleMove = ->
 		$("@path-block, @move-form").toggle()
 		if $("@move-form:visible").length > 0
@@ -20,8 +23,10 @@ $ ->
 	$("@move-page-button").click toggleMove
 	$("@move-form input").focusout toggleMove
 
+	$("@edit-page-button").click ->
+		$("@edit-form").fadeToggle()
 	$("@cancel").click ->
-		$("@edit-form").hide()[0].reset()
+		$("@edit-form").fadeOut()[0].reset()
 		editor.refreshPreview()
 
 	$("@delete-page-button").click ->
@@ -45,6 +50,5 @@ $ ->
 			$(this).val ""
 
 	editor.run()
-	#$("@edit-form").hide()
 	$(".not-saved @edit-form").show()
 

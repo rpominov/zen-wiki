@@ -1,17 +1,23 @@
 (function() {
 
   $(function() {
-    var check_val, converter, editor, pp, toggleMove;
+    var ORIG_TEXT, ORIG_TITLE, check_val, converter, editor, pp, toggleMove;
     converter = Markdown.getSanitizingConverter();
     editor = new Markdown.Editor(converter);
+    ORIG_TEXT = $("@edit-form textarea").val();
+    ORIG_TITLE = $('title').text();
     pp = _.throttle(prettyPrint, 500);
     editor.hooks.chain("onPreviewRefresh", function() {
+      var changed;
       $("#wmd-preview code, #wmd-preview pre").addClass("prettyprint");
       $("#wmd-preview table").addClass("striped");
+      changed = !(ORIG_TEXT === $("@edit-form textarea").val());
+      $('@edit-form [type=submit]').prop({
+        disabled: !changed
+      });
+      $('body').toggleClass('changed', changed);
+      $('title').text("" + (changed ? '*' : '') + ORIG_TITLE);
       return pp();
-    });
-    $("@edit-page-button").click(function() {
-      return $("@edit-form").toggle();
     });
     toggleMove = function() {
       $("@path-block, @move-form").toggle();
@@ -19,8 +25,11 @@
     };
     $("@move-page-button").click(toggleMove);
     $("@move-form input").focusout(toggleMove);
+    $("@edit-page-button").click(function() {
+      return $("@edit-form").fadeToggle();
+    });
     $("@cancel").click(function() {
-      $("@edit-form").hide()[0].reset();
+      $("@edit-form").fadeOut()[0].reset();
       return editor.refreshPreview();
     });
     $("@delete-page-button").click(function() {

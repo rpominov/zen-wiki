@@ -1,41 +1,44 @@
 @import "compass/css3/border-radius";
 @import "compass/css3/box-sizing";
+@import "compass/css3/transition";
+@import "compass/css3/opacity";
 
 @import "intro";
 @import "wmd";
 
-html {overflow-y: scroll}
+html {overflow-y:scroll}
 img {
 	max-width:100%;
 	height:auto;
 }
 .small {font-size:.9em;}
 .temporary-hidden {display:none}
+[disabled]{@include opacity(.5)}
 
 .prettyprint {
-	font-family: Monaco, Menlo, 'Droid Sans Mono', 'Courier New', monospace;
-	font-size: 12px;
+	font-family:Monaco, Menlo, 'Droid Sans Mono', 'Courier New', monospace;
+	font-size:12px;
 }
 
 pre.prettyprint {
-	border: none;
-	background: ghostWhite;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	padding: 2px 10px;
+	border:none;
+	background:ghostWhite;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	padding:2px 10px;
 }
 code.prettyprint {
-	background-color: ghostWhite;
-	color: hsl(0, 0%, 27%);
-	padding: 0 .2em;
-	border: 1px solid #DEDEDE;
+	background-color:ghostWhite;
+	color:hsl(0, 0%, 27%);
+	padding:0 .2em;
+	border:1px solid #DEDEDE;
 }
 pre.prettyprint code.prettyprint {
-	background-color: inherit;
-	color: inherit;
-	padding: 0;
-	border: none;
+	background-color:inherit;
+	color:inherit;
+	padding:0;
+	border:none;
 }
 
 .content-wrap {
@@ -71,6 +74,7 @@ aside {
 		margin:0;
 		padding:0;
 		font-size:17px;
+		word-wrap:break-word;
 		li {
 			list-style:none;
 			.private {
@@ -85,7 +89,7 @@ aside {
 			.new a {color:#888}
 			.current a {
 				cursor:default;
-				&:hover {text-decoration:none}
+				text-decoration:underline;
 			}
 		}
 		& > li {padding-bottom:.5em}
@@ -107,24 +111,30 @@ aside {
 			width:140px;
 			position:relative;
 			z-index:10;
+			@include single-transition(width, .3s);
 			&:focus {width:300px}
 		}
 	}
 
 article {
-	padding-top:20px;
+	padding-top:10px;
+	word-wrap:break-word;
 }
 
 .path {
 	font-size:17px;
 	color:#666;
-	height:25px;
-	margin-bottom:16px;
+	line-height:1.4;
 }
 	.path big {
 		font-size:25px;
 		color:black;
+		.buttons {white-space:nowrap}
 	}
+		.changed-mark {
+			display:none;
+			.changed & {display:inline}
+		}
 		.path sup {
 			font-size:11px;
 			cursor:pointer;
@@ -136,6 +146,7 @@ article {
 			top:-1em;
 			-webkit-font-smoothing:antialiased;
 			@include border-radius(2px);
+			&:active {top:-.9em}
 			&.set-private {
 				padding:1px;
 				background:white;
@@ -149,15 +160,15 @@ article {
 				.private &.set-private .private {background:#dfdfdf}
 		}
 .move-form {
-	height: 25px;
-	margin-bottom: 16px;
-	display: none;
+	height:25px;
+	margin-bottom:16px;
+	display:none;
 }
 	.move-form input {
-		font-size: 17px;
-		padding: 3px;
-		width: 300px;
-		margin: 0;
+		font-size:17px;
+		padding:3px;
+		width:300px;
+		margin:0;
 	}
 
 .edit-form {
@@ -166,17 +177,20 @@ article {
 	.textarea-wrap {
 		margin-bottom:10px;
 		textarea {
-			margin: 0;
-			padding: 5px;
+			margin:0;
+			padding:5px;
 			@include box-sizing(border-box);
 		}
 	}
 	.save-wrap {
-		text-align: right;
+		text-align:right;
+		[type=submit] {
+			margin-right:.5em;
+		}
 	}
 		.cancel {
-			cursor: pointer;
-			border-bottom: 1px dashed black;
+			cursor:pointer;
+			border-bottom:1px dashed black;
 		}
 
 footer {

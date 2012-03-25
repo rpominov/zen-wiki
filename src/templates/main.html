@@ -36,17 +36,19 @@
 		{% else %}
 			<h1 class="path" role="path-block">
 				{% for i in path %} {{ i|capfirst|escape }} → {% endfor %}
-				<big>{{ page.title|capfirst|escape }}
+				<big><span class="changed-mark">*</span>{{ page.title|capfirst|escape }}
 					{% if wiki.canEdit %}
-						<sup class="edit" role="edit-page-button">edit</sup>
-						{% if page.is_saved %}
-							<sup class="move" role="move-page-button">move</sup>
-							<sup class="delete" role="delete-page-button">delete</sup>
-							<sup class="set-private" role="set-private-status-button">
-								<span class="private">private</span>
-								<span class="public">public</span>
-							</sup>
-						{% endif %}
+						<span class="buttons">
+							<sup class="edit" role="edit-page-button">edit</sup>
+							{% if page.is_saved %}
+								<sup class="move" role="move-page-button">move</sup>
+								<sup class="delete" role="delete-page-button">delete</sup>
+								<sup class="set-private" role="set-private-status-button">
+									<span class="private">private</span>
+									<span class="public">public</span>
+								</sup>
+							{% endif %}
+						</span>
 					{% endif %}
 				</big>
 			</h1>
