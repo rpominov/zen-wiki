@@ -8,7 +8,7 @@ from main import Wiki
 class MainPage(webapp.RequestHandler):
 
 	def get(self):
-		if self.request.host.find("appspot") != -1:
+		if self.request.host.find("appspot") != -1 and self.request.url.find("https") != 0: # if on appspot.com and not in ssl mode
 			self.redirect("http://www.zen-wiki.com" + self.request.path)
 
 		wiki = None
