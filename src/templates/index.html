@@ -1,45 +1,92 @@
 {% extends 'base.html' %}
 
+{% block body_classes %}lang-en{% endblock %}
+
 {% block main_content %}
 	<br>
-	<h1>Welcome to Zen wiki</h1>
 
-	<div class="span-8">
-		<p>
-			<b>Zen wiki</b> is a tool to organize your small (or not) notes.
-			It has very light user interface, so you can start using it very fast.
-		</p>
+	<span class="link-js change-lang-link" role="change-lang">
+		<span class="en">по русски</span>
+		<span class="ru">english version</span>
+	</span>
 
-		<p>
-			As an example of filled wiki you can look at <a href="/meshokmuki">my own</a>.
-		</p>
+	<div class="en">
+		<h1>Welcome to Zen wiki</h1>
 
-		<p>
-			{% if user %}
-				You already logged in, and can access your wiki <a href="{{ wiki.getUrl }}">here</a>.
-			{% else %}
-				Please <a href="{{ login_url }}">login with your google account</a> to start using <b>Zen wiki</b>.
-			{% endif %}
-		</p>
-
-	</div>
-	<div class="span-8 last">
-		<div class="little-help"><div>
-			<h3>Little help</h3>
-
-			<h4>Markdown syntax</h4>
-			<p><a href="http://daringfireball.net/projects/markdown/syntax">Official documentation</a> (<a href="http://markdown.pp.ru/">по русски</a>)</p>
-
-			<h4>Allowed html tags:</h4>
+		<div class="span-8">
 			<p>
-				table, tr, th, td, b, blockquote, code, del, dd, dl, dt, em, h1, h2, h3, i, kbd, li, ol, p, pre, s, sup, sub, strong, strike, ul, br, hr
+				<b>Zen wiki</b> is a tool to organize your small (or not) notes.
+				It has very light user interface, so you can start using it very fast.
 			</p>
-		</div></div>
+
+			<p>
+				As an example of filled wiki you can look at <a href="/meshokmuki">my own</a>.
+			</p>
+
+			<p>
+				{% if user %}
+					You already logged in, and can access your wiki <a href="{{ wiki.getUrl }}">here</a>.
+				{% else %}
+					Please <a href="{{ login_url }}">login with your google account</a> to start using <b>Zen wiki</b>.
+				{% endif %}
+			</p>
+
+		</div>
+		<div class="span-8 last">
+			<div class="little-help"><div>
+				<h3>Little help</h3>
+
+				<h4>Markdown syntax</h4>
+				<p><a href="http://daringfireball.net/projects/markdown/syntax">Official documentation</a></p>
+
+				<h4>Allowed html tags:</h4>
+				<p>
+					table, tr, th, td, b, blockquote, code, del, dd, dl, dt, em, h1, h2, h3, i, kbd, li, ol, p, pre, s, sup, sub, strong, strike, ul, br, hr
+				</p>
+			</div></div>
+		</div>
 	</div>
 
+	<div class="ru">
+		<h1>Добро пожаловать в Дзен-вики</h1>
 
+		<div class="span-8">
+			<p>
+				<b>Дзен-вики</b> это инструмент для организации небольших (или больших) заметок.
+				Основное преимущество <b>дзен-вики</b> &mdash; простой легкий интерфейс.
+			</p>
 
+			<p>
+				В качестве примера заполнненой вики можете посмотреть <a href="/meshokmuki">мою собственную</a>.
+			</p>
+
+			<p>
+				{% if user %}
+					Вы уже вошли. Ваша персональная вики находится <a href="{{ wiki.getUrl }}">тут</a>.
+				{% else %}
+					Пожалуйста <a href="{{ login_url }}">войдите с аккаунтом google</a> чтобы начать использовать <b>Дзен-вики</b>.
+				{% endif %}
+			</p>
+
+		</div>
+		<div class="span-8 last">
+			<div class="little-help"><div>
+				<h3>Помощь</h3>
+
+				<h4>Синтаксис markdown</h4>
+				<p><a href="http://markdown.pp.ru/">Русский перевод официальной документации</a></p>
+
+				<h4>Список разрешенных HTML тегов:</h4>
+				<p>
+					table, tr, th, td, b, blockquote, code, del, dd, dl, dt, em, h1, h2, h3, i, kbd, li, ol, p, pre, s, sup, sub, strong, strike, ul, br, hr
+				</p>
+			</div></div>
+		</div>
+	</div>
 
 {% endblock %}
 
-{% block scripts %}{% endblock %}
+{% block scripts %}
+	{{ block.super }}
+	<script src="/static/js/index.js"></script>
+{% endblock %}

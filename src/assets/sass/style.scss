@@ -205,5 +205,21 @@ footer {
 	border:0;
 }
 
+.link-js {
+	@extend a;
+	text-decoration:none;
+	cursor:pointer;
+	border-bottom:1px dashed $link-color;
+	&:hover {border-color:$link-hover-color}
+	&:active {border-color:$link-active-color}
+}
+
+.lang-en .ru,
+.lang-ru .en {display:none}
+.change-lang-link {
+	display:block;
+	float:right;
+}
+
 @import 'outro';
 
