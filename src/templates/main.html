@@ -25,9 +25,12 @@
 			{{ menu_html }}
 		</ul>
 
+		{% if wiki.canEdit %}
 		<form action="" method="get" role="new-form" class="new-form">
-			<input type="text" placeholder="new/page" role="new-input" />
+			<input type="text" placeholder="new page" role="new-input" />
 		</form>
+		{% endif %}
+
 	</aside>
 	<article class="span-12 last">
 
