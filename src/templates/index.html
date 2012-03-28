@@ -4,26 +4,42 @@
 	<br>
 	<h1>Welcome to Zen wiki</h1>
 
-	<p>
-		{% if user %}
-			Your wiki <a href="{{ wiki.getUrl }}">here</a>
-		{% else %}
-			Please <a href="{{ login_url }}">login</a> to manage your wiki
-		{% endif %}
-	</p>
-
-	<div class="little-help"><div>
-		<h3>Little help</h3>
-
-		<h4>Markdown syntax</h4>
-		<p><a href="http://daringfireball.net/projects/markdown/syntax">Official documentation</a> (<a href="http://markdown.pp.ru/">по русски</a>)</p>
-
-		<h4>Allowed html tags:</h4>
+	<div class="span-8">
 		<p>
-			table, tr, th, td, b, blockquote, code, del, dd, dl, dt, em, h1, h2, h3, i, kbd, li, ol, p, pre, s, sup, sub, strong, strike, ul, br, hr
+			<b>Zen wiki</b> is a tool to organize your small (or not) notes.
+			It has very light user interface, so you can start using it very fast.
 		</p>
-	</div></div>
+
+		<p>
+			As an example of filled wiki you can look at <a href="/meshokmuki">my own</a>.
+		</p>
+
+		<p>
+			{% if user %}
+				You already logged in, and can access your wiki <a href="{{ wiki.getUrl }}">here</a>.
+			{% else %}
+				Please <a href="{{ login_url }}">login with your google account</a> to start using <b>Zen wiki</b>.
+			{% endif %}
+		</p>
+
+	</div>
+	<div class="span-8 last">
+		<div class="little-help"><div>
+			<h3>Little help</h3>
+
+			<h4>Markdown syntax</h4>
+			<p><a href="http://daringfireball.net/projects/markdown/syntax">Official documentation</a> (<a href="http://markdown.pp.ru/">по русски</a>)</p>
+
+			<h4>Allowed html tags:</h4>
+			<p>
+				table, tr, th, td, b, blockquote, code, del, dd, dl, dt, em, h1, h2, h3, i, kbd, li, ol, p, pre, s, sup, sub, strong, strike, ul, br, hr
+			</p>
+		</div></div>
+	</div>
+
+
+
+
 {% endblock %}
 
 {% block scripts %}{% endblock %}
-
