@@ -11,24 +11,23 @@
 	</span>
 
 	<div class="en">
-		<h1>Welcome to Zen wiki</h1>
+		<h1>Zen-wiki</h1>
 
 		<div class="span-8">
 			<p>
-				<b>Zen wiki</b> is a tool to organize your small (or not) notes.
-				It has very light user interface, so you can start using it very fast.
-			</p>
-
-			<p>
-				As an example of filled wiki you can look at <a href="/meshokmuki">my own</a>.
+				<b>Zen-wiki</b> is a tool to organize personal notes.
 			</p>
 
 			<p>
 				{% if user %}
 					You already logged in, and can access your wiki <a href="{{ wiki.getUrl }}">here</a>.
 				{% else %}
-					Please <a href="{{ login_url }}">login with your google account</a> to start using <b>Zen wiki</b>.
+					Please <a href="{{ login_url }}">login with your google account</a> to start using <b>Zen-wiki</b>.
 				{% endif %}
+			</p>
+
+			<p>
+				<a href="https://github.com/pozadi/zen-wiki">Source code on Github</a>
 			</p>
 
 			<a href="https://twitter.com/share" class="twitter-share-button" data-via="meshokmuki" data-text="Manage your notes with Zen-wiki" data-url="http://zen-wiki.com" data-lang="en">Tweet</a>
@@ -51,16 +50,11 @@
 	</div>
 
 	<div class="ru">
-		<h1>Добро пожаловать в Дзен-вики</h1>
+		<h1>Дзен-вики</h1>
 
 		<div class="span-8">
 			<p>
-				<b>Дзен-вики</b> это инструмент для организации небольших (или больших) заметок.
-				Основное преимущество <b>дзен-вики</b> &mdash; простой легкий интерфейс.
-			</p>
-
-			<p>
-				В качестве примера заполнненой вики можете посмотреть <a href="/meshokmuki">мою собственную</a>.
+				<b>Дзен-вики</b> это инструмент для организации личных заметок.
 			</p>
 
 			<p>
@@ -69,6 +63,10 @@
 				{% else %}
 					Пожалуйста <a href="{{ login_url }}">войдите с аккаунтом google</a> чтобы начать использовать <b>Дзен-вики</b>.
 				{% endif %}
+			</p>
+
+			<p>
+				<a href="https://github.com/pozadi/zen-wiki">Исходный код на Github</a>
 			</p>
 
 			<a href="https://twitter.com/share" class="twitter-share-button" data-via="meshokmuki" data-text="Делайте заметки с Дзен-вики" data-url="http://zen-wiki.com" data-lang="ru">Tweet</a>
@@ -96,3 +94,4 @@
 	{{ block.super }}
 	<script src="/static/js/index.js"></script>
 {% endblock %}
+
